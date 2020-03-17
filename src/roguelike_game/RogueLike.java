@@ -74,11 +74,13 @@ public class RogueLike {
 			
 			double angle = Math.atan2(y, x);
 			
+			double newX = Math.cos(angle) * player.getMaxDx();
+			double newY = Math.sin(angle) * player.getMaxDy();
 			
 			
 			
-			player.setDX(x);
-			player.setDY(y);
+			player.setDX((float) newX);
+			player.setDY((float) newY);
 
 		}
 		
