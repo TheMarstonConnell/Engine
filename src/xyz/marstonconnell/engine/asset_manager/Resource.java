@@ -7,6 +7,6 @@ public class Resource {
 	File path;
 	
 	public Resource(AssetManager assetMan, String filePath) {
-		path = new File(assetMan.assetPath + filePath);
+		path = new File(assetMan.getAssetPath() + filePath);
 	}
 }

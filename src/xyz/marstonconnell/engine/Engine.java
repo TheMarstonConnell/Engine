@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 
 import xyz.marstonconnell.engine.asset_manager.AssetManager;
 import xyz.marstonconnell.engine.render.Camera;
+import xyz.marstonconnell.engine.render.CustomCompare;
 import xyz.marstonconnell.engine.render.Sprite;
 
 public class Engine extends JFrame {
@@ -104,7 +106,14 @@ public class Engine extends JFrame {
 	}
 
 	public boolean addSprite(Sprite toAdd) {
-		return sprites.add(toAdd);
+		
+		boolean added = sprites.add(toAdd);
+		sortSprites();
+		return added;
+	}
+	
+	public void sortSprites() {
+		Collections.sort(sprites, new CustomCompare());
 	}
 
 	private void init() {
@@ -118,7 +127,7 @@ public class Engine extends JFrame {
 		camera = new Camera();
 		keysDown = new ArrayList<Integer>();
 
-		updateTick = new Timer(100, null);
+		updateTick = new Timer(50, null);
 		renderTick = new Timer(1000 / fps, new ActionListener() {
 
 			@Override

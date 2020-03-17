@@ -8,12 +8,14 @@ import java.awt.image.BufferedImage;
 
 public class Sprite extends Rectangle{
 	protected Image img;
+	private Integer layer = 0;
 	
-	public Sprite(int x, int y, int width, int height) {
+	public Sprite(int x, int y, int width, int height, Integer layer) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.layer = layer;
 	}
 	
 	public void setImage(Image i) {
@@ -32,5 +34,13 @@ public class Sprite extends Rectangle{
 		graph.fillRect(0, 0, this.width, this.height);
 		graph.dispose();
 		return bimg;
+	}
+
+	public int getLayer() {
+		return layer;
+	}
+
+	public void setLayer(int layer) {
+		this.layer = layer;
 	}
 }
