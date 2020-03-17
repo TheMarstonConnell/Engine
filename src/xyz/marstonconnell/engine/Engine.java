@@ -46,6 +46,11 @@ public class Engine extends JFrame {
 	private int fps = 60;
 
 	private AssetManager assetMan;
+	
+	
+	int width;
+	int height;
+	
 
 	public Camera getCamera() {
 		return camera;
@@ -53,6 +58,16 @@ public class Engine extends JFrame {
 
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+	
+	@Override
+	public int getWidth() {
+		return this.width;
+	}
+	
+	@Override
+	public int getHeight() {
+		return this.height;
 	}
 
 	public Engine(int width, int height, String id) {
@@ -62,6 +77,9 @@ public class Engine extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		this.width = width;
+		this.height = height;
+		
 		this.GameID = id;
 
 		this.addMouseMotionListener(new MouseMotionListener() {
