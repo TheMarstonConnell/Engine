@@ -13,9 +13,9 @@ public class EntityBase extends Sprite{
 	//Physics
 	float dx = 0;
 	float dy = 0;
-	float maxDx = 1f;
-	float maxDy = 1f;
-	float friction = 0.99f;
+	float maxDx = 20f;
+	float maxDy = 20f;
+	float friction = 0.8f;
 	
 	AssetManager assetMan;
 	String name;
@@ -39,19 +39,25 @@ public class EntityBase extends Sprite{
 	}
 	
 	public void setDX(float dx) {
+		this.dx = dx;
 		
+	}
+	
+	public void setDY(float dy) {
+		this.dy = dy;
+	}
+	
+	public void addDX(float dx) {
+		setDX(this.dx + dx);
+	}
+	
+	public void addDY(float dy) {
+		setDY(this.dy + dy);
 	}
 	
 	public void update() {
 		
 		
-		
-		if(Math.abs(this.dx) < 0.001) {
-			this.dx = 0f;
-		}
-		if(Math.abs(this.dy) < 0.001) {
-			this.dy = 0f;
-		}
 		
 		if(this.dx > this.maxDx) {
 			this.dx = this.maxDx;
@@ -69,6 +75,18 @@ public class EntityBase extends Sprite{
 		
 		this.x += this.dx;
 		this.y += this.dy;
+		
+		applyFriction();
+		
+		if(Math.abs(this.dx) < 0.02) {
+			this.dx = 0f;
+		}
+		if(Math.abs(this.dy) < 0.02) {
+			this.dy = 0f;
+		}
+		
+		System.out.println("DX: " + this.dx + ", DY: " + this.dy);
+		
 		
 	}
 	

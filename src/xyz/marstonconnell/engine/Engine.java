@@ -88,7 +88,8 @@ public class Engine extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (keysDown.contains(e.getKeyCode())) {
-					keysDown.remove(e.getKeyCode());
+					int dex = keysDown.indexOf(e.getKeyCode());
+					keysDown.remove(dex);
 				}
 			}
 
