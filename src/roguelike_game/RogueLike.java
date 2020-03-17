@@ -31,10 +31,11 @@ public class RogueLike {
 		entities.add(player);
 		
 		Sprite background = engine.getAssetMan().createSprite("tiles/wood", -200, -200, 1000, 1000, 1);
+		Sprite inventory = new Sprite(0,0,100,100,100);
+		inventory.setImage(inventory.createColor(255, 0, 0));
 		engine.addSprite(background);
-		
+		engine.addSprite(inventory);
 		engine.getUpdateTick().addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -66,7 +67,9 @@ public class RogueLike {
 		for(EntityBase entity: entities) {
 			entity.update();
 		}
-		
+		if (keys.contains(KeyEvent.VK_I)) {
+			
+		}
 		centerCamera();
 	}
 	
