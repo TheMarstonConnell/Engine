@@ -82,9 +82,7 @@ public class EntityBase extends Sprite{
 		if(Math.abs(this.dy) < 0.03) {
 			this.dy = 0f;
 		}
-		
-		System.out.println("DX: " + this.dx + ", DY: " + this.dy);
-		
+			
 		
 	}
 	

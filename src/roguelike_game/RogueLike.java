@@ -18,7 +18,7 @@ public class RogueLike {
 	ArrayList<EntityBase> entities;
 	
 	PlayerBase player;
-	
+	Sprite inventory;
 	public RogueLike() throws IOException {
 		engine = new Engine(1080, 720, "roguelike");
 		System.out.println("Starting RogueLike Game...");
@@ -29,12 +29,12 @@ public class RogueLike {
 		player.createImage();
 		engine.addSprite(player);
 		entities.add(player);
-		
 		Sprite background = engine.getAssetMan().createSprite("tiles/wood", -200, -200, 1000, 1000, 1);
 		Sprite inventory = new Sprite(0,0,100,100,100);
 		inventory.setImage(inventory.createColor(255, 0, 0));
 		engine.addSprite(background);
 		engine.addSprite(inventory);
+		inventory.setVisible(false);
 		engine.getUpdateTick().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -68,8 +68,15 @@ public class RogueLike {
 			entity.update();
 		}
 		if (keys.contains(KeyEvent.VK_I)) {
-			
-		}
+			System.out.println("dab");
+			/*	if (inventory.isVisible() == false){
+				System.out.println();
+				inventory.setVisible(true);
+			}
+			else {
+				inventory.setVisible(false);
+			}
+		*/}
 		centerCamera();
 	}
 	
