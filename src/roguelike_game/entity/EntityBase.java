@@ -67,11 +67,9 @@ public class EntityBase extends Sprite{
 		}
 		
 		if(this.dx < -this.maxDx) {
-			System.out.println("dab");
 			this.dx = -this.maxDx;
 		}
 		if(this.dy < -this.maxDy) {
-			System.out.println("dob");
 			this.dy = -this.maxDy;
 		}
 		
