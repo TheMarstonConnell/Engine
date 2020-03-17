@@ -33,10 +33,6 @@ public class RogueLike {
 		Sprite background = engine.getAssetMan().createSprite("tiles/wood", -200, -200, 1000, 1000, 1);
 		engine.addSprite(background);
 		
-		Sprite sp = new Sprite(0,0,0,0, 100);
-		sp.setImage(sp.createColor(255, 255, 255));
-		engine.addSprite(sp);
-		
 		
 		engine.getUpdateTick().addActionListener(new ActionListener() {
 			
