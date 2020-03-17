@@ -16,25 +16,35 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import com.google.gson.Gson;
+
+import xyz.marstonconnell.engine.asset_manager.AssetManager;
 import xyz.marstonconnell.engine.render.Camera;
 import xyz.marstonconnell.engine.render.Sprite;
 
-public class Engine extends JFrame{
-	
-	Point mousePos = new Point(0,0);
-	
-	ArrayList<Integer> keysDown;
+public class Engine extends JFrame {
 
-	ArrayList<Sprite> sprites;
-	Camera camera;
-	
-	//Drawing Strategy
-	protected Graphics2D graphics;
+	private final String GameID;
+
+	private Point mousePos = new Point(0, 0);
+
+	private ArrayList<Integer> keysDown;
+
+	private ArrayList<Sprite> sprites;
+	private Camera camera;
+
+	// Drawing Strategy
+	private Graphics2D graphics;
 	private BufferStrategy strategy;
 
-	String assetsFolder = "assets/";
-	
-	
+	private Gson gson;
+	private Timer updateTick;
+	private Timer renderTick;
+
+	private int fps = 60;
+
+	private AssetManager assetMan;
+
 	public Camera getCamera() {
 		return camera;
 	}
@@ -43,114 +53,118 @@ public class Engine extends JFrame{
 		this.camera = camera;
 	}
 
-	Timer updateTick;
-	Timer renderTick;
-	
-	int fps = 60;
-	
-	public Engine(int width, int height) {
-		
+	public Engine(int width, int height, String id) {
+
 		this.setSize(width + this.getInsets().left * 2, height + this.getInsets().top + this.getInsets().bottom);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		
+		this.GameID = id;
+
 		this.addMouseMotionListener(new MouseMotionListener() {
-			
+
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				mousePos = new Point((int)(e.getPoint().x - getInsets().left), (int)(e.getPoint().y - getInsets().top));				
+				mousePos = new Point((int) (e.getPoint().x - getInsets().left),
+						(int) (e.getPoint().y - getInsets().top));
 			}
-			
+
 			@Override
-			public void mouseDragged(MouseEvent e) {}
-			
+			public void mouseDragged(MouseEvent e) {
+			}
+
 		});
-		
+
 		this.addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(keysDown.contains(e.getKeyCode())) {
+				if (keysDown.contains(e.getKeyCode())) {
 					keysDown.remove(e.getKeyCode());
-				}				
+				}
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-				if(!keysDown.contains(e.getKeyCode())) {
+				if (!keysDown.contains(e.getKeyCode())) {
 					keysDown.add(e.getKeyCode());
 				}
-				
-				
+
 			}
 		});
-		
+
 		init();
 	}
-	
+
 	public boolean addSprite(Sprite toAdd) {
 		return sprites.add(toAdd);
 	}
-	
+
 	private void init() {
+
+		System.out.println("Starting JavaEngine by Marston Connell & Spencer Antliff...");
+		gson = new Gson();
+
+		assetMan = new AssetManager(GameID);
+
 		sprites = new ArrayList<Sprite>();
 		camera = new Camera();
 		keysDown = new ArrayList<Integer>();
-		
+
 		updateTick = new Timer(100, null);
 		renderTick = new Timer(1000 / fps, new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				redraw();
 				showDrawing();
-				System.out.println("Grr");
 			}
 		});
-		
+
 		updateTick.start();
 		renderTick.start();
 		createBufferStrategy(2);
 	}
-	
+
 	private void redraw() {
 		strategy = getBufferStrategy();
 		graphics = (Graphics2D) strategy.getDrawGraphics();
 		Graphics2D g2d = (Graphics2D) graphics;
-		
+
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
-		
+
 		int left = this.getInsets().left;
 		int top = this.getInsets().top;
-		
-		for(int i = 0; i < sprites.size(); i ++) {
+
+		for (int i = 0; i < sprites.size(); i++) {
 			Sprite sp = sprites.get(i);
-			
-			if((sp.getX() + left - camera.getX() <= this.getWidth() || ! (sp.getX() + left - camera.getX() + sp.getWidth() <= 0)) && (sp.getY() + top - camera.getY() <= this.getHeight() || ! (sp.getY() + top - camera.getY() + sp.getHeight() <= 0))) {
-				g2d.drawImage(sp.getImage(), (int) (sp.getX() + left - camera.getX()), (int) (sp.getY() + top  - camera.getY()), (int) sp.width, (int) sp.height, null);
+
+			if ((sp.getX() + left - camera.getX() <= this.getWidth()
+					|| !(sp.getX() + left - camera.getX() + sp.getWidth() <= 0))
+					&& (sp.getY() + top - camera.getY() <= this.getHeight()
+							|| !(sp.getY() + top - camera.getY() + sp.getHeight() <= 0))) {
+				g2d.drawImage(sp.getImage(), (int) (sp.getX() + left - camera.getX()),
+						(int) (sp.getY() + top - camera.getY()), (int) sp.width, (int) sp.height, null);
 
 			}
-			
+
 		}
 
 	}
-	
+
 	public void showDrawing() {
 		graphics.dispose();
 		strategy.show();
 	}
-	
-	
-	
+
 	public int getFps() {
 		return fps;
 	}
@@ -167,14 +181,42 @@ public class Engine extends JFrame{
 		return renderTick;
 	}
 
-	@Override 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
+
 	}
-	
+
 	public static void main(String[] args) {
-		Engine engine = new Engine(1000, 800);
+		Engine engine = new Engine(1000, 800, "Engine");
+	}
+
+	public AssetManager getAssetMan() {
+		return assetMan;
+	}
+
+	public void setAssetMan(AssetManager assetMan) {
+		this.assetMan = assetMan;
+	}
+
+	public String getGameID() {
+		return GameID;
+	}
+
+	public Point getMousePos() {
+		return mousePos;
+	}
+
+	public ArrayList<Integer> getKeysDown() {
+		return keysDown;
+	}
+
+	public ArrayList<Sprite> getSprites() {
+		return sprites;
+	}
+
+	public Gson getGson() {
+		return gson;
 	}
 
 }
