@@ -1,5 +1,6 @@
 package roguelike_game;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -62,6 +63,25 @@ public class RogueLike {
 		else if (keys.contains(KeyEvent.VK_W)){
 			player.addDY(-entitySpeed);
 		}
+		
+		
+		if(engine.getMouseClicks()[2]) {
+			Point mouse = engine.getMousePos();
+			int x = mouse.x;
+			int y = mouse.y;
+			x = x - engine.getWidth() / 2;
+			y = y - engine.getHeight() / 2;
+			
+			double angle = Math.atan2(y, x);
+			
+			
+			
+			
+			player.setDX(x);
+			player.setDY(y);
+
+		}
+		
 		
 		for(EntityBase entity: entities) {
 			entity.update();

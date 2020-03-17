@@ -33,7 +33,7 @@ public class Engine extends JFrame {
 
 	private ArrayList<Integer> keysDown;
 
-	boolean[] mouseClicks = { false, false, false };
+	private boolean[] mouseClicks = { false, false, false };
 
 	private ArrayList<Sprite> sprites;
 	private Camera camera;
@@ -264,6 +264,10 @@ public class Engine extends JFrame {
 
 	public void setAssetMan(AssetManager assetMan) {
 		this.assetMan = assetMan;
+	}
+
+	public boolean[] getMouseClicks() {
+		return mouseClicks;
 	}
 
 	public String getGameID() {
