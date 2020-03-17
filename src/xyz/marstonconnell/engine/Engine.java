@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class Engine extends JFrame {
 
 	private ArrayList<Integer> keysDown;
 
+	boolean[] mouseClicks = { false, false, false };
+
 	private ArrayList<Sprite> sprites;
 	private Camera camera;
 
@@ -46,11 +49,9 @@ public class Engine extends JFrame {
 	private int fps = 60;
 
 	private AssetManager assetMan;
-	
-	
+
 	int width;
 	int height;
-	
 
 	public Camera getCamera() {
 		return camera;
@@ -59,12 +60,12 @@ public class Engine extends JFrame {
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return this.width;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return this.height;
@@ -79,7 +80,7 @@ public class Engine extends JFrame {
 
 		this.width = width;
 		this.height = height;
-		
+
 		this.GameID = id;
 
 		this.addMouseMotionListener(new MouseMotionListener() {
@@ -94,6 +95,43 @@ public class Engine extends JFrame {
 			public void mouseDragged(MouseEvent e) {
 			}
 
+		});
+
+		this.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int dex = e.getButton() - 1;
+
+				mouseClicks[dex] = false;
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+				int dex = e.getButton() - 1;
+
+				mouseClicks[dex] = true;
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
 		});
 
 		this.addKeyListener(new KeyListener() {
@@ -125,12 +163,12 @@ public class Engine extends JFrame {
 	}
 
 	public boolean addSprite(Sprite toAdd) {
-		
+
 		boolean added = sprites.add(toAdd);
 		sortSprites();
 		return added;
 	}
-	
+
 	public void sortSprites() {
 		Collections.sort(sprites, new CustomCompare());
 	}
@@ -174,14 +212,15 @@ public class Engine extends JFrame {
 
 		for (int i = 0; i < sprites.size(); i++) {
 			Sprite sp = sprites.get(i);
+			if (sp.isVisible()) {
+				if ((sp.getX() + left - camera.getX() <= this.getWidth()
+						|| !(sp.getX() + left - camera.getX() + sp.getWidth() <= 0))
+						&& (sp.getY() + top - camera.getY() <= this.getHeight()
+								|| !(sp.getY() + top - camera.getY() + sp.getHeight() <= 0))) {
+					g2d.drawImage(sp.getImage(), (int) (sp.getX() + left - camera.getX()),
+							(int) (sp.getY() + top - camera.getY()), (int) sp.width, (int) sp.height, null);
 
-			if ((sp.getX() + left - camera.getX() <= this.getWidth()
-					|| !(sp.getX() + left - camera.getX() + sp.getWidth() <= 0))
-					&& (sp.getY() + top - camera.getY() <= this.getHeight()
-							|| !(sp.getY() + top - camera.getY() + sp.getHeight() <= 0))) {
-				g2d.drawImage(sp.getImage(), (int) (sp.getX() + left - camera.getX()),
-						(int) (sp.getY() + top - camera.getY()), (int) sp.width, (int) sp.height, null);
-
+				}
 			}
 
 		}

@@ -10,6 +10,8 @@ public class Sprite extends Rectangle{
 	protected Image img;
 	private Integer layer = 0;
 	
+	private boolean visible = true;
+	
 	public Sprite(int x, int y, int width, int height, Integer layer) {
 		this.x = x;
 		this.y = y;
@@ -42,5 +44,13 @@ public class Sprite extends Rectangle{
 
 	public void setLayer(int layer) {
 		this.layer = layer;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }
