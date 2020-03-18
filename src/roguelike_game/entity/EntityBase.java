@@ -86,6 +86,22 @@ public class EntityBase extends Sprite{
 		
 	}
 	
+	public float getMaxDx() {
+		return maxDx;
+	}
+
+	public void setMaxDx(float maxDx) {
+		this.maxDx = maxDx;
+	}
+
+	public float getMaxDy() {
+		return maxDy;
+	}
+
+	public void setMaxDy(float maxDy) {
+		this.maxDy = maxDy;
+	}
+
 	public void applyFriction() {
 		this.dx = this.dx * (1 - this.friction);
 		this.dy = this.dy * (1 - this.friction);

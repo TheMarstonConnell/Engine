@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javax.swing.Timer;
 import roguelike_game.entity.EntityBase;
 import roguelike_game.entity.player.PlayerBase;
 import xyz.marstonconnell.engine.Engine;
@@ -16,7 +16,8 @@ public class RogueLike {
 	Engine engine;
 	
 	ArrayList<EntityBase> entities;
-	
+	Timer initialTime;
+	Timer finalTime;
 	PlayerBase player;
 	Sprite inventory;
 	public RogueLike() throws IOException {
@@ -30,7 +31,7 @@ public class RogueLike {
 		engine.addSprite(player);
 		entities.add(player);
 		Sprite background = engine.getAssetMan().createSprite("tiles/wood", -200, -200, 1000, 1000, 1);
-		Sprite inventory = new Sprite(0,0,100,100,100);
+		inventory = new Sprite(0,0,100,100,100);
 		inventory.setImage(inventory.createColor(255, 0, 0));
 		engine.addSprite(background);
 		engine.addSprite(inventory);
@@ -69,14 +70,16 @@ public class RogueLike {
 		}
 		if (keys.contains(KeyEvent.VK_I)) {
 			System.out.println("dab");
-			/*	if (inventory.isVisible() == false){
+				if (inventory.isVisible() == false){
 				System.out.println();
 				inventory.setVisible(true);
 			}
 			else {
 				inventory.setVisible(false);
+				
 			}
-		*/}
+			
+		}
 		centerCamera();
 	}
 	
